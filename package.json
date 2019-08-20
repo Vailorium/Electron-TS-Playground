@@ -1,0 +1,43 @@
+{
+  "name": "electron-ts-playground",
+  "version": "0.0.1",
+  "description": "Testing Area from integrating TS with Electron, using electron-packer for distribution",
+  "main": "dist/main.js",
+  "dependencies": {
+    "fs": "^0.0.1-security",
+    "jquery": "^3.4.1",
+    "ts-loader": "^6.0.4",
+    "webpack": "^4.39.2",
+    "webpack-cli": "^3.3.7"
+  },
+  "devDependencies": {
+    "@types/jquery": "^3.3.31",
+    "commonjs": "0.0.1",
+    "electron": "^6.0.2",
+    "electron-packager": "^14.0.4",
+    "path": "^0.12.7",
+    "tslint": "^5.18.0",
+    "typescript": "^3.5.3"
+  },
+  "scripts": {
+    "build:dev": "tsc",
+    "build:prod": "electron-packager . UNNAMED --all --overwrite --icon=./icon/icon.ico --out=output --ignore=.gitignore --asar --sourcedir=./dist",
+    "build:win": "electron-packager . UNNAMED --platform=win32 --overwrite --icon=./icon/icon.ico --out=output --ignore=.gitignore --asar --sourcedir=./dist",
+    "build:mac": "electron-packager . UNNAMED --platform=darwin --overwrite --icon=./icon/icon.ico --out=output --ignore=.gitignore --asar --sourcedir=./dist",
+    "build:linux": "electron-packager . UNNAMED --platform=linux --overwrite --icon=./icon/icon.ico --out=output --ignore=.gitignore --asar --sourcedir=./dist",
+    "lint": "tslint -c tslint.json -p tsconfig.json",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "npm run build:dev && electron ./dist/main.js",
+    "watch": "tsc -w"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Vailorium/Electron-TS-Playground.git"
+  },
+  "author": "Samuel Hembrow",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Vailorium/Electron-TS-Playground/issues"
+  },
+  "homepage": "https://github.com/Vailorium/Electron-TS-Playground#readme"
+}
