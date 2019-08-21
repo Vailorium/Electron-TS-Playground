@@ -5,13 +5,26 @@ let mainWindow: Electron.BrowserWindow | null;
 
 function createWindow() {
   // Create the browser window.
-  mainWindow = new BrowserWindow({
-    height: 600,
-    webPreferences: {
-      nodeIntegration: true,
-    },
-    width: 800,
-  });
+  if (process.env.isDev) {
+    mainWindow = new BrowserWindow({
+      height: 600,
+      webPreferences: {
+        devTools: true,
+        nodeIntegration: true,
+      },
+      width: 900,
+    });
+  } else {
+    mainWindow = new BrowserWindow({
+      height: 600,
+      webPreferences: {
+        devTools: false,
+        nodeIntegration: true,
+      },
+      width: 900,
+    });
+    mainWindow.removeMenu();
+  }
 
   // and load the index.html of the app.
   mainWindow.loadFile(path.join(__dirname, "../index.html"));

@@ -4,6 +4,7 @@
   "description": "Testing Area from integrating TS with Electron, using electron-packer for distribution",
   "main": "dist/main.js",
   "dependencies": {
+    "electron-is-dev": "^1.1.0",
     "fs": "^0.0.1-security",
     "jquery": "^3.4.1",
     "ts-loader": "^6.0.4",
@@ -21,13 +22,13 @@
   },
   "scripts": {
     "build:dev": "tsc",
-    "build:prod": "electron-packager . UNNAMED --all --overwrite --icon=./icon/icon.ico --out=output --ignore=.gitignore --asar --sourcedir=./dist",
-    "build:win": "electron-packager . UNNAMED --platform=win32 --overwrite --icon=./icon/icon.ico --out=output --ignore=.gitignore --asar --sourcedir=./dist",
-    "build:mac": "electron-packager . UNNAMED --platform=darwin --overwrite --icon=./icon/icon.ico --out=output --ignore=.gitignore --asar --sourcedir=./dist",
-    "build:linux": "electron-packager . UNNAMED --platform=linux --overwrite --icon=./icon/icon.ico --out=output --ignore=.gitignore --asar --sourcedir=./dist",
+    "build:prod": "set isDev=false && electron-packager . UNNAMED --all --overwrite --icon=./icon/icon.ico --out=output --ignore=.gitignore --asar --sourcedir=./dist",
+    "build:win": "set isDev=false && electron-packager . UNNAMED --platform=win32 --overwrite --icon=./icon/icon.ico --out=output --ignore=.gitignore --asar --sourcedir=./dist",
+    "build:mac": "set isDev=false && electron-packager . UNNAMED --platform=darwin --overwrite --icon=./icon/icon.ico --out=output --ignore=.gitignore --asar --sourcedir=./dist",
+    "build:linux": "set isDev=false && electron-packager . UNNAMED --platform=linux --overwrite --icon=./icon/icon.ico --out=output --ignore=.gitignore --asar --sourcedir=./dist",
     "lint": "tslint -c tslint.json -p tsconfig.json",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "npm run build:dev && electron ./dist/main.js",
+    "start": "npm run build:dev && set isDev=true && electron ./dist/main.js",
     "watch": "tsc -w"
   },
   "repository": {
