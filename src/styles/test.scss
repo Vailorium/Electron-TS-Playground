@@ -1,0 +1,22 @@
+html,body{
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+#container{
+    height: 100%;
+    width: 100%;
+    background-color: green;
+    .player{
+        height: 50px;
+        width: 50px;
+        background-color: blue;
+        position: absolute;
+    }
+}
+
+.red{
+    color: red;
+}

@@ -12,3 +12,8 @@
 <ul>
 <li>Use `npm run watch` to compile TS on saving</li>
 </ul>
+
+## Reminders
+<ul>
+<li>Remember to add imports to index.scss when adding new style files</li>
+</ul>
