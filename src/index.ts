@@ -1,16 +1,12 @@
 import $ from 'jquery';
+import { Player } from './actors';
+import { TileMap } from './map';
 
 $(document).ready(() => {
     console.log('Hello! Testasdf!');
-    generatePlayer();
+    console.log(`Height: ${window.innerHeight}px, Width: ${window.innerWidth}px`);
+
+    const player = new Player({x: 6, y: 6});
+    const map = new TileMap();
+    map.generateMap();
 });
-
-function generatePlayer() {
-    const d = document.createElement("div");
-    $(d).addClass("player");
-    $('#container').append(d);
-}
-
-export function changeText() {
-    $("#potato").text("Hello");
-}

@@ -8,23 +8,26 @@ function createWindow() {
   if (process.env.isDev) {
     mainWindow = new BrowserWindow({
       height: 600,
+      useContentSize: true,
       webPreferences: {
         devTools: true,
         nodeIntegration: true,
       },
       width: 900,
     });
+    mainWindow.webContents.openDevTools();
   } else {
     mainWindow = new BrowserWindow({
       height: 600,
+      useContentSize: true,
       webPreferences: {
         devTools: false,
         nodeIntegration: true,
       },
       width: 900,
     });
-    mainWindow.removeMenu();
   }
+  mainWindow.removeMenu();
 
   // and load the index.html of the app.
   mainWindow.loadFile(path.join(__dirname, "../index.html"));
