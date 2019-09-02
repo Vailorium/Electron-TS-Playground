@@ -1,9 +1,10 @@
 import $ from 'jquery';
 import * as env from '../environment';
 import { Point } from '../models';
+import { Actor } from './Actor';
 
 //tslint:disable
-export class Player {
+export class Player extends Actor {
 
     public coordinates: Point;
     public movementRange: number;
@@ -11,19 +12,19 @@ export class Player {
     private movementClicked: boolean;
 
     constructor(coordinates: Point) {
+        super("Playername", {hp: 100, attack: 25, defense: 10}, [env.ATTACKS.stab]);
+
         this.coordinates = coordinates;
         this.movementRange = 5;
         this.movementClicked = false;
 
-        $(".player").on('click', (ev) => {
-            console.log(ev);
-            console.log("LCick!");
-            $(".player").animate({'top': 32 * 3, 'left': 32 * 9}, 500);
-        });
-
         this.generatePlayer(this.coordinates);
         this.setHover();
         this.setClick();
+    }
+
+    public attack = (): void => {
+        this.generateRangeTiles(3, 5, 'attack', this.coordinates, this.coordinates);
     }
 
     private generatePlayer = (coordinates: Point): void => {
@@ -96,6 +97,10 @@ export class Player {
             case 'movement':
                 this.movement(coordinates);
                 break;
+
+            case 'attack':
+                this.attackTile(coordinates);
+                break;
         }
     }
 
@@ -104,10 +109,34 @@ export class Player {
     }
 
     private movement = (coordinates: Point): void => {
+        for(let i = 0; i < env.EnemyList.length; i++){
+            $(env.EnemyList[i].object).removeClass('attackable');
+        }
+        $('.tile').removeClass('attack');
+
         $(`#c${coordinates.x}-${coordinates.y}`).addClass('movement');
         $(`#c${coordinates.x}-${coordinates.y}`).click(() => {
             this.move(coordinates);
         });
+    }
+
+    private attackTile = (coordinates: Point): void => {
+        for(let i = 0; i < env.EnemyList.length; i++){
+            if(coordinates.x === env.EnemyList[i].coordinates.x && coordinates.y === env.EnemyList[i].coordinates.y){
+                console.log("Enemy inside attack bounds!");
+                $(env.EnemyList[i].object).addClass('attackable');
+                $(env.EnemyList[i].object).on('click', () => {
+                    $(env.EnemyList[i].object).off('click');
+                    env.EnemyList[i].damage(this.stats.attack, this.name);
+
+                    for(let i = 0; i < env.EnemyList.length; i++){
+                        $(env.EnemyList[i].object).removeClass('attackable');
+                    }
+                    $('.tile').removeClass('attack');
+                });
+            }
+        }
+        $(`#c${coordinates.x}-${coordinates.y}`).addClass('attack');
     }
 
     public move = (coordinates: Point): void => {
