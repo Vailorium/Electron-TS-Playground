@@ -17,3 +17,6 @@
 <ul>
 <li>Remember to add imports to index.scss when adding new style files</li>
 </ul>
+
+## Trello Board
+https://trello.com/b/Iy5Fqxi9/electron-ts-playground-board

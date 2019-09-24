@@ -3,9 +3,10 @@
     "rules": {
     "max-line-length": {
         "options": [
-            120
+            255
         ]
     },
+    "comment-format": false,
     "new-parens": true,
     "no-arg": true,
     "no-bitwise": true,
@@ -13,12 +14,5 @@
     "no-consecutive-blank-lines": false,
     "quotemark": false,
     "no-console": false
-    },
-    "jsRules": {
-        "max-line-length": {
-            "options": [
-                120
-            ]
-        }
     }
 }

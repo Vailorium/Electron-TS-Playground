@@ -23,12 +23,11 @@
   },
   "scripts": {
     "build:dev": "tsc && sass src/styles:dist/styles",
-    "build:prod": "echo \"If you have changed scripts and not compiled the tsc or scss, use build:dev\" && set isDev=false && electron-packager . UNNAMED --all --overwrite --icon=./icon/icon.ico --out=output --ignore=.gitignore --ignore=/src --asar --sourcedir=./dist",
-    "build:win": "echo \"If you have changed scripts and not compiled the tsc or scss, use build:dev\" && set isDev=false && electron-packager . UNNAMED --platform=win32 --overwrite --icon=./icon/icon.ico --out=output --ignore=.gitignore --ignore=/src --asar --sourcedir=./dist",
-    "build:mac": "echo \"If you have changed scripts and not compiled the tsc or scss, use build:dev\" && set isDev=false && electron-packager . UNNAMED --platform=darwin --overwrite --icon=./icon/icon.ico --out=output --ignore=.gitignore --ignore=/src --asar --sourcedir=./dist",
-    "build:linux": "echo \"If you have changed scripts and not compiled the tsc or scss, use build:dev\" && set isDev=false && electron-packager . UNNAMED --platform=linux --overwrite --icon=./icon/icon.ico --out=output --ignore=.gitignore --ignore=/src --asar --sourcedir=./dist",
-    "lint": "tslint -c tslint.json -p tsconfig.json",
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "build:prod": "echo If you have changed scripts and not compiled the tsc or scss, use build:dev && set isDev=false && electron-packager . UNNAMED --all --overwrite --icon=./icon/icon.ico --out=output --ignore=.gitignore --ignore=/src --asar --sourcedir=./dist",
+    "build:win": "echo If you have changed scripts and not compiled the tsc or scss, use build:dev && set isDev=false && electron-packager . UNNAMED --platform=win32 --overwrite --icon=./icon/icon.ico --out=output --ignore=.gitignore --ignore=/src --asar --sourcedir=./dist",
+    "build:mac": "echo If you have changed scripts and not compiled the tsc or scss, use build:dev && set isDev=false && electron-packager . UNNAMED --platform=darwin --overwrite --icon=./icon/icon.ico --out=output --ignore=.gitignore --ignore=/src --asar --sourcedir=./dist",
+    "build:linux": "echo If you have changed scripts and not compiled the tsc or scss, use build:dev && set isDev=false && electron-packager . UNNAMED --platform=linux --overwrite --icon=./icon/icon.ico --out=output --ignore=.gitignore --ignore=/src --asar --sourcedir=./dist",    "lint": "tslint -c tslint.json -p tsconfig.json",
+    "test": "echo Error: no test specified && exit 1",
     "start": "npm run build:dev && set isDev=true && electron ./dist/main.js",
     "watch": "tsc -w"
   },
