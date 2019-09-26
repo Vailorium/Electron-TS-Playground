@@ -3,6 +3,7 @@ import { showMessage } from '../';
 import * as env from '../environment';
 import { Point } from "../models";
 import { Actor } from './Actor';
+import { SafeAI} from '../ai';
 
 export class Enemy extends Actor {
 
@@ -10,18 +11,21 @@ export class Enemy extends Actor {
 
     public object: HTMLDivElement;
 
+    public ai: SafeAI;
+
     constructor() {
-        // tslint:disable: max-line-length
         super(
             "Blah",
             {hp: 50, attack: 0, defense: 0},
             {x: Math.floor(Math.random() * env.BOUNDS.x), y: Math.floor(Math.random() * env.BOUNDS.y)},
-            4,
-            [env.ATTACKS.stab],
+            10,
+            [env.ATTACKS.stab, env.ATTACKS.shoot],
         );
         this.element = this.generateEnemy(this.coordinates);
-
+        
+        this.ai = new SafeAI();
         env.EnemyList.push(this);
+    
     }
 
     private generateEnemy = (coordinates: Point): HTMLDivElement => {

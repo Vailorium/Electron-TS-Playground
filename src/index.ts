@@ -48,7 +48,7 @@ export function showMessage(message: string, color?: string) {
 
 export let enemyTurn = (): void => {
     for (const enemy of env.EnemyList) {
-        enemy.turn();
+        enemy.ai.turn(enemy, player); // needs to be changed and calculated per enemy
 
     }
 }

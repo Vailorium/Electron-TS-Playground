@@ -15,9 +15,9 @@ export class Actor {
 
     public element?: HTMLDivElement;
 
-    protected name: string;
+    public name: string;
 
-    protected attacks: Attack[];
+    public attacks: Attack[];
 
 
     // tslint:disable-next-line: max-line-length
@@ -55,54 +55,18 @@ export class Actor {
         $('.tile').unbind('click');
     }
 
-    public turn = (): void => {
-        // console.log(system.pathfind(this.coordinates, player.coordinates, currentMap));
-        // return;
-
-        //! First AI is max range priority AI (i.e. will go max range always even if it does less damage)
-        if (Math.abs(player.coordinates.x - this.coordinates.x) + Math.abs(player.coordinates.y - this.coordinates.y) <= this.getMaxRange()) {
-            console.log(`${this.name}'s AI: Player is in range, moving to max range to attack`);
-
-            // const minAbs = Math.abs(player.coordinates.x - this.coordinates.x) + Math.abs(player.coordinates.y - this.coordinates.y) - this.movementRange;
-
-            let possibleTiles = [];
-            for(let x = 0; x <= this.movementRange; x++){
-                for(let y = x - this.movementRange; y <= this.movementRange - x; y++){
-                    if (this.coordinates.x + x < env.BOUNDS.x && this.coordinates.y + y < env.BOUNDS.y && this.coordinates.y + y >= 0) {
-                        if (Math.abs(this.coordinates.x + x - player.coordinates.x) + Math.abs(this.coordinates.y + y - player.coordinates.y) <= this.getAttackMaxRange()){
-                            possibleTiles.push({x: this.coordinates.x + x, y: this.coordinates.y + y});
-                        }
-                    }
-                    if (x > 0) {
-                        if (Math.abs(this.coordinates.x - x - player.coordinates.x) + Math.abs(this.coordinates.y + y - player.coordinates.y) <= this.getAttackMaxRange()){
-                            possibleTiles.push({x: this.coordinates.x - x, y: this.coordinates.y + y});
-                        }
-                    }
-                }
-            }
-
-            while (possibleTiles.length > 0) {
-                const path = system.pathfind(this.coordinates, possibleTiles[0], currentMap);
-                if (path.length > 0) {
-                    this.move(possibleTiles[0]);
-                    return;
-                } else {
-                    console.log("No path could be found to this possible tile, trying next");
-                    possibleTiles.shift();
-                }
-            }
-            console.log("No valid path could be found, skipping turn (in future, will kite backwards)")
-        } else {
-            console.log(`${this.name}'s AI: Player is not in range, moving closer`);
-        }
-    }
-
-    protected getMaxRange = (): number => {
+    public getMaxRange = (): number => {
         return this.movementRange + Math.max.apply(null, this.attacks.map((attack) => attack.maxRange));
     }
 
-    protected getAttackMaxRange = (): number => {
+    public getAttackMaxRange = (): number => {
         return Math.max.apply(null, this.attacks.map((attack) => attack.maxRange));
+    }
+
+    public getMaxRangeAttack = (): Attack => {
+        return this.attacks.find((a) => {
+            return a.maxRange === this.getAttackMaxRange();
+        }) as Attack;
     }
 
     protected destroy = (): void => {

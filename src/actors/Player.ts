@@ -9,6 +9,8 @@ export class Player extends Actor {
 
     private movementClicked: boolean;
 
+    private canMove: boolean;
+
     constructor(coordinates: Point) {
         super(
             "Playername",
@@ -20,6 +22,7 @@ export class Player extends Actor {
 
         this.element = this.generatePlayer(this.coordinates);
         this.movementClicked = false;
+        this.canMove = true;
 
         // this.generatePlayer(this.coordinates);
         this.setHover();
@@ -43,21 +46,27 @@ export class Player extends Actor {
 
     private setHover = (): void => {
         $('.player').mouseenter(() => {
-            this.generateRangeTiles(1, this.movementRange, 'moveHover', this.coordinates, this.coordinates);
+            if(this.canMove){
+                this.generateRangeTiles(1, this.movementRange, 'moveHover', this.coordinates, this.coordinates);
+            }
         }).mouseleave(() => {
-            $(".tile").removeClass('movementPlayerHover');
+            // if(this.canMove){
+                $(".tile").removeClass('movementPlayerHover');
+            // }
         });
     }
 
     private setClick = (): void => {
         $('.player').click(() => {
-            if(!this.movementClicked){
-                this.generateRangeTiles(1, this.movementRange, 'movement', this.coordinates, this.coordinates);
+            if(this.canMove){
+                if(!this.movementClicked){
+                    this.generateRangeTiles(1, this.movementRange, 'movement', this.coordinates, this.coordinates);
+                }
+                else{
+                    $(".tile").removeClass('movement');
+                }
+                this.movementClicked = !this.movementClicked;
             }
-            else{
-                $(".tile").removeClass('movement');
-            }
-            this.movementClicked = !this.movementClicked;
         })
     }
 
@@ -123,6 +132,7 @@ export class Player extends Actor {
 
         $(`#c${coordinates.x}-${coordinates.y}`).addClass('movement');
         $(`#c${coordinates.x}-${coordinates.y}`).click(() => {
+            this.canMove = false;
             this.move(coordinates);
         });
     }
@@ -134,15 +144,23 @@ export class Player extends Actor {
                 $(env.EnemyList[i].object).on('click', () => {
                     $(env.EnemyList[i].object).off('click');
                     env.EnemyList[i].damage(this.stats.attack, this.name);
+                    this.canMove = true;
 
                     for(let i = 0; i < env.EnemyList.length; i++){
                         $(env.EnemyList[i].object).removeClass('attackable');
                     }
                     $('.tile').removeClass('attack');
+
+                    enemyTurn();
                 });
             }
         }
         $(`#c${coordinates.x}-${coordinates.y}`).addClass('attack');
+    }
+
+    public skip = (): void => {
+        this.canMove = true;
+        enemyTurn();
     }
 
     public move = (coordinates: Point): void => {
@@ -154,8 +172,8 @@ export class Player extends Actor {
         $(".tile").removeClass('movement');
         this.movementClicked = false;
         $('.tile').unbind('click');
+        this.canMove = false;
 
-        enemyTurn();
     }
 
     protected destroy = (): void => {
